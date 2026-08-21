@@ -1,5 +1,6 @@
 #pragma once
 #include "order.hpp"
+#include "trade.hpp"
 #include <queue>
 #include <vector>
 struct BuyComparator{
@@ -42,9 +43,11 @@ class OrderBook{
     private:
     std::priority_queue<Order, std::vector<Order>, BuyComparator>buy_orders;
     std::priority_queue<Order, std::vector<Order>, SellComparator>sell_orders;
+    std::vector<Trade> trades;
     public:
     void addOrder(Order a);
     Order getBestBuy();
     Order getBestSell();
     void matchOrders();
+    std::vector<Trade> getTrades(); // we are returning multiple trades
 };

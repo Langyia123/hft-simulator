@@ -48,5 +48,12 @@ int main(){
     std::cout << "SEQUENCE NUMBER: " << best2.sequence_number << std::endl;
     std::cout << best2.price << std::endl;
     book.matchOrders();
+    std::vector<Trade> trades = book.getTrades();
+    for (int i = 0; i < trades.size(); i++){
+        std::cout << trades[i].buy_order_id << std::endl;
+        std::cout << trades[i].sell_order_id << std::endl;
+        std::cout << trades[i].price << std::endl;
+        std::cout << trades[i].trade_quantity << std::endl;
+    }
     return 0;
 }
