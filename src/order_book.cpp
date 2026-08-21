@@ -1,0 +1,39 @@
+#include "order_book.hpp"
+#include <algorithm>
+#include <iostream>
+void OrderBook::addOrder(Order a){
+    if (a.side == Side::BUY){
+        buy_orders.push(a);
+    }
+    else{
+        sell_orders.push(a);
+    }
+}
+Order OrderBook::getBestBuy(){
+    return buy_orders.top();
+}
+Order OrderBook::getBestSell(){
+    return sell_orders.top();
+}
+void OrderBook::matchOrders(){
+    while(!buy_orders.empty() && !sell_orders.empty()){ //orders can't happen if both sell and buy orders are empty
+        Order buy = getBestBuy();
+        Order sell = getBestSell();
+        if (buy.price < sell.price){
+            return;
+        }
+        //trade happens here because the buying price is equal to or greater than the selling price
+        std::uint32_t trade_quantity = std::min(buy.quantity, sell.quantity); // let us say the buyer wants 50 and the seller only has 25 that means we have 25 left and then we remove the smaller of the two.
+        std::cout << "TRADE: " << trade_quantity << std::endl;
+        buy.quantity = buy.quantity - trade_quantity;
+        sell.quantity = sell.quantity - trade_quantity;
+        buy_orders.pop(); //since the priority queue is protecting itd ordering, we can't just modify values
+        sell_orders.pop();
+        if (buy.quantity > 0){
+            addOrder(buy);
+        }
+        if (sell.quantity > 0){
+            addOrder(sell);
+        }
+    }
+}
