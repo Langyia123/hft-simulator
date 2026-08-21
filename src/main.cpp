@@ -4,12 +4,8 @@
 int main(){
     std::cout << "HFT SIMULATOR" << std::endl;
     OrderBook book;
-    Order a(1, Side::BUY, OrderType::LIMIT, 10030, 50, 1);
-    Order b(2, Side::SELL, OrderType::LIMIT, 10025, 20, 2);
-    Order c(3, Side::SELL, OrderType::LIMIT, 10020, 30, 3);
-    book.addOrder(a);
-    book.addOrder(b);
-    book.addOrder(c);
+    book.addOrder(Side::BUY, OrderType::LIMIT, 10030, 50);
+    book.addOrder(Side::SELL, OrderType::LIMIT, 10020, 30);
     Order best = book.getBestBuy();
     Order best2 = book.getBestSell();
     std::cout << "ORDER ID: " << best.order_id << std::endl;

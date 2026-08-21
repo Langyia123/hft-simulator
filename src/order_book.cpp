@@ -1,7 +1,18 @@
 #include "order_book.hpp"
 #include <algorithm>
 #include <iostream>
-void OrderBook::addOrder(Order a){
+void OrderBook::addOrder(Side side, OrderType type, std::uint64_t price, std::uint32_t quantity){
+    Order a(next_order_id, side, type, price, quantity, next_sequence_number);
+    if (a.side == Side::BUY){
+        buy_orders.push(a);
+    }
+    else{
+        sell_orders.push(a);
+    }
+    next_order_id ++;
+    next_sequence_number ++;
+}
+void OrderBook::addExistingOrder(Order a){
     if (a.side == Side::BUY){
         buy_orders.push(a);
     }
@@ -35,10 +46,10 @@ void OrderBook::matchOrders(){
         buy_orders.pop(); //since the priority queue is protecting its ordering, we can't just modify values
         sell_orders.pop();
         if (buy.quantity > 0){
-            addOrder(buy);
+            addExistingOrder(buy);
         }
         if (sell.quantity > 0){
-            addOrder(sell);
+            addExistingOrder(sell);
         }
     }
 }

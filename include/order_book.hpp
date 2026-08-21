@@ -3,6 +3,7 @@
 #include "trade.hpp"
 #include <queue>
 #include <vector>
+#include <cstdint>
 struct BuyComparator{
     bool operator()(Order a, Order b){
         if (a.price < b.price){
@@ -44,8 +45,11 @@ class OrderBook{
     std::priority_queue<Order, std::vector<Order>, BuyComparator>buy_orders;
     std::priority_queue<Order, std::vector<Order>, SellComparator>sell_orders;
     std::vector<Trade> trades;
+    std::uint64_t next_order_id = 1;
+    std::uint64_t next_sequence_number = 1;
+    void addExistingOrder(Order a); //this is because we do not want to generate new ids and sequence numbers for already existing orders in an order book.
     public:
-    void addOrder(Order a);
+    void addOrder(Side side, OrderType type, std::uint64_t price, std::uint32_t quantity);
     Order getBestBuy();
     Order getBestSell();
     void matchOrders();
