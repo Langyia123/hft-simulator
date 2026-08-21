@@ -4,8 +4,9 @@
 int main(){
     std::cout << "HFT SIMULATOR" << std::endl;
     OrderBook book;
-    book.addOrder(Side::BUY, OrderType::LIMIT, 10030, 50);
-    book.addOrder(Side::SELL, OrderType::LIMIT, 10020, 30);
+    book.addOrder(Side::BUY, OrderType::LIMIT, 10030, 20);
+    book.addOrder(Side::SELL, OrderType::LIMIT, 10020, 20);
+    //book.addOrder(Side::SELL, OrderType::LIMIT, 10025, 30);
     Order best = book.getBestBuy();
     Order best2 = book.getBestSell();
     std::cout << "ORDER ID: " << best.order_id << std::endl;
@@ -43,7 +44,9 @@ int main(){
     std::cout << "QUANTITY: " << best2.quantity << std::endl;
     std::cout << "SEQUENCE NUMBER: " << best2.sequence_number << std::endl;
     std::cout << best2.price << std::endl;
+    //book.cancelOrder(1);
     book.matchOrders();
+    book.printActiveOrders();
     std::vector<Trade> trades = book.getTrades();
     for (int i = 0; i < trades.size(); i++){
         std::cout << trades[i].buy_order_id << std::endl;
